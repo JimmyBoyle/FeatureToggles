@@ -27,9 +27,7 @@ clean:
 	rm -rf dist
 
 init:
-	pip uninstall virtualenv
 	python -m pip install pipenv --user
-	pip install pipenv
 	pipenv sync --dev
 
 compile-app:
