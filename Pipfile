@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"boto3" = "*"
+awscli = "*"
+jsonschema = "*"
+jsonref = "*"
+botocore = "*"
+
+[dev-packages]
+cfn-lint = "*"
+"autopep8" = "*"
+pytest = "*"
+mock = "*"
+pytest-mock = "*"
+
+[requires]
+python_version = "2.7"

@@ -1,0 +1,128 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Parameters:
+  LogLevel:
+    Type: String
+    Description: Log level for lambda functions.
+    Default: INFO
+    AllowedValues: [DEBUG, INFO, WARNING, ERROR, CRITICAL]
+  DynamoReadCapacityUnits:
+    Type: Number
+    Description: Number of read capacity units for dynamodb table.
+    Default: 5
+    MinValue: 5
+  DynamoWriteCapacityUnits:
+    Type: Number
+    Description: Number of write capacity units for dynamodb table.
+    Default: 5
+    MinValue: 5
+
+Resources:
+  LoadFeatureToggles:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Tracing: Active
+      CodeUri: app/
+      MemorySize: 512
+      Environment:
+        Variables:
+          LOG_LEVEL: !Ref LogLevel
+          TABLE_NAME: !Ref FeatureTogglesTable
+      Handler: handlers.load_feature_toggles
+      Role: !GetAtt LoadFeatureTogglesRole.Arn
+      Timeout: 60
+      Runtime: python2.7
+
+  LoadFeatureTogglesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess'
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: LoadFeatureTogglesRolePolicy0
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action:
+                  - 'dynamodb:GetItem'
+                Resource: !GetAtt FeatureTogglesTable.Arn
+                Effect: Allow
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+
+  UpdateFeatureToggles:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Tracing: Active
+      CodeUri: app/
+      MemorySize: 512
+      Environment:
+        Variables:
+          LOG_LEVEL: !Ref LogLevel
+          TABLE_NAME: !Ref FeatureTogglesTable
+      Handler: handlers.update_feature_toggles
+      Role: !GetAtt UpdateFeatureTogglesRole.Arn
+      Timeout: 60
+      Runtime: python2.7
+      
+  UpdateFeatureTogglesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess'
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: UpdateFeatureTogglesRolePolicy0
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Action:
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:PutItem'
+                Resource: !GetAtt FeatureTogglesTable.Arn
+                Effect: Allow
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+
+  FeatureTogglesTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: 'id'
+          AttributeType: 'S'
+      KeySchema:
+        - AttributeName: 'id'
+          KeyType: 'HASH'
+      ProvisionedThroughput:
+        ReadCapacityUnits: !Ref DynamoReadCapacityUnits
+        WriteCapacityUnits: !Ref DynamoWriteCapacityUnits
+
+Outputs:
+  LoadFeatureTogglesFunctionName:
+    Value: !Ref LoadFeatureToggles
+  LoadFeatureTogglesFunctionArn:
+    Value: !GetAtt LoadFeatureToggles.Arn
+  UpdateFeatureTogglesFunctionName:
+    Value: !Ref UpdateFeatureToggles
+  UpdateFeatureTogglesFunctionArn:
+    Value: !GetAtt UpdateFeatureToggles.Arn
+  FeatureTogglesTableName:
+    Value: !Ref FeatureTogglesTable
+  FeatureTogglesTableArn:
+    Value: !GetAtt FeatureTogglesTable.Arn
