@@ -9,6 +9,7 @@ awscli = "*"
 jsonschema = "*"
 jsonref = "*"
 botocore = "*"
+pipenv = "*"
 
 [dev-packages]
 cfn-lint = "*"
