@@ -19,7 +19,7 @@ APP_STACK_NAME ?= jimbo-toggles-1
 # Default AWS CLI region
 AWS_DEFAULT_REGION ?= us-west-2
 
-#PYTHON := $(shell /usr/bin/which python$(PY_VERSION))
+PYTHON := $(shell /usr/bin/which python$(PY_VERSION))
 
 .DEFAULT_GOAL := build
 
@@ -27,7 +27,7 @@ clean:
 	rm -rf dist
 
 init:
-	python -m pip install pipenv --user
+	$(PYTHON) -m pip install pipenv --user
 	pipenv sync --dev
 
 compile-app:
