@@ -1,9 +1,11 @@
-import core
+
 import pytest
 import os
 import botocore
 import sys
+print sys.path
 
+import core
 from pytest_mock import mocker
 from jsonschema import ValidationError
 
