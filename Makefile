@@ -27,8 +27,8 @@ clean:
 	rm -rf dist
 
 init:
-	pip install --user pipenv
-	$(PYTHON) -m pip install pipenv --user
+	pip install pipenv
+	#$(PYTHON) -m pip install pipenv --user
 	pipenv sync --dev
 
 compile-app:
