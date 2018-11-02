@@ -6,3 +6,5 @@ phases:
   build:
     commands:
     - make compile-app
+    - make test
+

@@ -36,7 +36,7 @@ compile-app:
 	pipenv run cfn-lint $(TEMPLATE_DIR)/template.yml
 
 test:
-	pipenv run sam local invoke  --template $(BUILD_DIR)/template.yml 'LoadFeatureToggles' -e tests/update_feature_toggles_happycase.json  --debug
+	pipenv run python -m pytest tests/
 
 build: package
 
