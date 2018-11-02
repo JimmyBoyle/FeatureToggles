@@ -7,7 +7,7 @@ from pytest_mock import mocker
 from jsonschema import ValidationError
 
 
-PREFIX = '/'+os.environ['PREFIX']+'/'
+PREFIX = '/'+os.environ['PREFIX'] + '/'
 
 
 def test_load_no_item(mocker):
