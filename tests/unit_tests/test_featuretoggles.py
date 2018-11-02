@@ -1,16 +1,13 @@
-
+import core
 import pytest
 import os
 import botocore
-import sys
-print sys.path
 
-import core
 from pytest_mock import mocker
 from jsonschema import ValidationError
 
-print sys.path
-PREFIX = '/'+os.environ['PREFIX'] + '/'
+
+PREFIX = '/'+os.environ['PREFIX'] +  '/'
 
 
 def test_load_no_item(mocker):
