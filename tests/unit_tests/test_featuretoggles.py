@@ -2,11 +2,12 @@ import core
 import pytest
 import os
 import botocore
+import sys
 
 from pytest_mock import mocker
 from jsonschema import ValidationError
 
-
+print sys.path
 PREFIX = '/'+os.environ['PREFIX'] + '/'
 
 
