@@ -29,7 +29,6 @@ clean:
 
 init:
 	pip install pipenv
-	#$(PYTHON) -m pip install pipenv --user
 	pipenv sync --dev
 
 compile-app:
