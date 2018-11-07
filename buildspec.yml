@@ -8,7 +8,7 @@ phases:
     - make compile-app
     - make test
     - make deploy
-  post-build:
+  post_build:
     commands:
     - make deploy
     - make teardown
