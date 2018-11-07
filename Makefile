@@ -52,4 +52,4 @@ deploy: package
 	pipenv run sam deploy --template-file $(BUILD_DIR)/packaged-template.yml --stack-name $(APP_STACK_NAME) --capabilities CAPABILITY_IAM
 
 teardown:
-	aws cloudformation delete-stack --stack_name $(APP_STACK_NAME)
+	aws cloudformation delete-stack --stack-name $(APP_STACK_NAME)
