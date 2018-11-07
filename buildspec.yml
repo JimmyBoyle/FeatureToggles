@@ -1,4 +1,9 @@
 version: 0.2
+
+env:
+  variables:
+    STACK_NAME: ${CODEBUILD_BUILD_ID//:}
+
 phases:
   install:
     commands:
@@ -7,5 +12,5 @@ phases:
     commands:
     - make compile-app
     - make test
-    - make deploy APP_STACK_NAME=$CODEBUILD_BUILD_ID
-    - make teardown APP_STACK_NAME=$(CODEBUILD_BUILD_ID)
+    - make deploy APP_STACK_NAME=$STACK_NAME
+    - make teardown APP_STACK_NAME=$STACK_NAME
