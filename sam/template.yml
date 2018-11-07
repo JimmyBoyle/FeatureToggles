@@ -43,7 +43,7 @@ Resources:
                 Effect: Allow
                 Action:
                   - 'ssm:GetParameter*'
-                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/$(TogglesPrefix)*'
+                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${TogglesPrefix}*'
 
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -84,7 +84,7 @@ Resources:
                 Effect: Allow
                 Action:
                   - 'ssm:GetParameter*'
-                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/$(TogglesPrefix)*'
+                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${TogglesPrefix}*'
 
       AssumeRolePolicyDocument:
         Version: 2012-10-17
