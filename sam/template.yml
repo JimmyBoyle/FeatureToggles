@@ -9,7 +9,7 @@ Parameters:
     AllowedValues: [DEBUG, INFO, WARNING, ERROR, CRITICAL]
   TogglesPrefix:
     Type: String
-    Decsription: Prefix String for SSM Parameters
+    Description: Prefix String for SSM Parameters
     Default: FeatureToggles
     
 
