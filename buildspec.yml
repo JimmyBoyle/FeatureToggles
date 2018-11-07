@@ -1,16 +1,16 @@
 version: 0.2
 
-env:
-  variables:
-    STACK_NAME: ${CODEBUILD_BUILD_ID} #jimmy-is-neat #${CODEBUILD_BUILD_ID//:}
 
 phases:
   install:
     commands:
     - make init
+  pre_build:
+    commands:
+    - export STACK_NAME=${CODEBUILD_BUILD_ID//:}
   build:
     commands:
     - make compile-app
     - make test
-    - make deploy APP_STACK_NAME=${CODEBUILD_BUILD_ID//:}
+    - make deploy APP_STACK_NAME=$STACK_NAME
     - make teardown APP_STACK_NAME=$STACK_NAME
