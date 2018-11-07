@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    STACK_NAME: $CODEBUILD_BUILD_ID #jimmy-is-neat #${CODEBUILD_BUILD_ID//:}
+    STACK_NAME: ${CODEBUILD_BUILD_ID} #jimmy-is-neat #${CODEBUILD_BUILD_ID//:}
 
 phases:
   install:
