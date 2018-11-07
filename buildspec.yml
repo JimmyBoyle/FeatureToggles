@@ -1,16 +1,16 @@
 version: 0.2
 
-
 phases:
   install:
     commands:
     - make init
   pre_build:
     commands:
-    - export STACK_NAME=${CODEBUILD_BUILD_ID//:}
+    - uuid=uuidgen -r
+    - x=FeatureToggles-$uuid
   build:
     commands:
     - make compile-app
     - make test
-    - make deploy APP_STACK_NAME=$STACK_NAME
-    - make teardown APP_STACK_NAME=$STACK_NAME
+    - make deploy APP_STACK_NAME=$x
+    - make teardown APP_STACK_NAME=$x
