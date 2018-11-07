@@ -6,7 +6,7 @@ phases:
     - make init
   pre_build:
     commands:
-    - uuid=uuidgen -r
+    - uuid=$(uuidgen -r)
     - x=FeatureToggles-$uuid
   build:
     commands:
