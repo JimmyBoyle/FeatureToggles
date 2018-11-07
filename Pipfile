@@ -16,6 +16,7 @@ cfn-lint = "*"
 pytest = "*"
 mock = "*"
 pytest-mock = "*"
+aws-sam-cli = "*"
 
 [requires]
 python_version = "2.7"

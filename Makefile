@@ -9,7 +9,8 @@ TEMPLATE_DIR := sam
 # Required environment variables (user must override)
 
 # S3 bucket used for packaging SAM templates
-PACKAGE_BUCKET ?= lambda-code-toggles
+PACKAGE_BUCKET ?= cfn-temps
+PACKAGE_PREFIX ?= FeatureToggles
 
 # user can optionally override the following by setting environment variables with the same names before running make
 
@@ -41,12 +42,16 @@ test:
 build: package
 
 package: compile-app
-	cp -r $(TEMPLATE_DIR)/template.yml app $(BUILD_DIR)
+	cp -r $(TEMPLATE_DIR)/template.yml src $(BUILD_DIR)
 
 	# package dependencies in lib dir
 	pipenv lock --requirements > $(BUILD_DIR)/requirements.txt
-	pipenv run pip install -t $(BUILD_DIR)/app/ -r $(BUILD_DIR)/requirements.txt	
+	pipenv run pip install -t $(BUILD_DIR)/src/lib/ -r $(BUILD_DIR)/requirements.txt	
+	pipenv run zip -r app.zip $(BUILD_DIR)/src
 
 deploy: package
-	pipenv run sam package --template-file $(BUILD_DIR)/template.yml --s3-bucket $(PACKAGE_BUCKET) --output-template-file $(BUILD_DIR)/packaged-template.yml
+	pipenv run sam package --template-file $(BUILD_DIR)/template.yml --s3-bucket $(PACKAGE_BUCKET) --s3-prefix $(PACKAGE_PREFIX) --output-template-file $(BUILD_DIR)/packaged-template.yml
 	pipenv run sam deploy --template-file $(BUILD_DIR)/packaged-template.yml --stack-name $(APP_STACK_NAME) --capabilities CAPABILITY_IAM
+
+teardown:
+	aws cloudformation delete-stack --stack_name $(APP_STACK_NAME)

@@ -7,28 +7,22 @@ Parameters:
     Description: Log level for lambda functions.
     Default: INFO
     AllowedValues: [DEBUG, INFO, WARNING, ERROR, CRITICAL]
-  DynamoReadCapacityUnits:
-    Type: Number
-    Description: Number of read capacity units for dynamodb table.
-    Default: 5
-    MinValue: 5
-  DynamoWriteCapacityUnits:
-    Type: Number
-    Description: Number of write capacity units for dynamodb table.
-    Default: 5
-    MinValue: 5
+  TogglesPrefix:
+    Type: String
+    Decsription: Prefix String for SSM Parameters
+    Default: FeatureToggles
+    
 
 Resources:
   LoadFeatureToggles:
     Type: 'AWS::Serverless::Function'
     Properties:
       Tracing: Active
-      CodeUri: app/
+      CodeUri: ./src
       MemorySize: 512
       Environment:
         Variables:
           LOG_LEVEL: !Ref LogLevel
-          TABLE_NAME: !Ref FeatureTogglesTable
       Handler: handlers.load_feature_toggles
       Role: !GetAtt LoadFeatureTogglesRole.Arn
       Timeout: 60
@@ -45,10 +39,12 @@ Resources:
           PolicyDocument:
             Version: 2012-10-17
             Statement:
-              - Action:
-                  - 'dynamodb:GetItem'
-                Resource: !GetAtt FeatureTogglesTable.Arn
+              -
                 Effect: Allow
+                Action:
+                  - 'ssm:GetParameter*'
+                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/$(TogglesPrefix)*'
+
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -63,12 +59,11 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Tracing: Active
-      CodeUri: app/
+      CodeUri: ./src
       MemorySize: 512
       Environment:
         Variables:
           LOG_LEVEL: !Ref LogLevel
-          TABLE_NAME: !Ref FeatureTogglesTable
       Handler: handlers.update_feature_toggles
       Role: !GetAtt UpdateFeatureTogglesRole.Arn
       Timeout: 60
@@ -85,11 +80,12 @@ Resources:
           PolicyDocument:
             Version: 2012-10-17
             Statement:
-              - Action:
-                  - 'dynamodb:GetItem'
-                  - 'dynamodb:PutItem'
-                Resource: !GetAtt FeatureTogglesTable.Arn
+              -
                 Effect: Allow
+                Action:
+                  - 'ssm:GetParameter*'
+                Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/$(TogglesPrefix)*'
+
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -100,18 +96,6 @@ Resources:
               Service:
                 - lambda.amazonaws.com
 
-  FeatureTogglesTable:
-    Type: 'AWS::DynamoDB::Table'
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: 'id'
-          AttributeType: 'S'
-      KeySchema:
-        - AttributeName: 'id'
-          KeyType: 'HASH'
-      ProvisionedThroughput:
-        ReadCapacityUnits: !Ref DynamoReadCapacityUnits
-        WriteCapacityUnits: !Ref DynamoWriteCapacityUnits
 
 Outputs:
   LoadFeatureTogglesFunctionName:
@@ -122,7 +106,3 @@ Outputs:
     Value: !Ref UpdateFeatureToggles
   UpdateFeatureTogglesFunctionArn:
     Value: !GetAtt UpdateFeatureToggles.Arn
-  FeatureTogglesTableName:
-    Value: !Ref FeatureTogglesTable
-  FeatureTogglesTableArn:
-    Value: !GetAtt FeatureTogglesTable.Arn
