@@ -3,7 +3,7 @@ import json
 
 client = boto3.client('cloudformation')
 
-stack_name = 'FeatureToggles-ec3d2376-dca7-4022-92ad-ae7ba1ed575e'
+stack_name = 'FeatureToggles-c103d1af-d76e-49c2-9785-37094c910f82'
 response = client.describe_stack_resource(
     StackName = stack_name,
     LogicalResourceId = 'LoadFeatureToggles'
@@ -19,14 +19,21 @@ response = client.describe_stack_resource(
 update_function = response['StackResourceDetail']['PhysicalResourceId']
 
 
-print load_function
-print update_function
-
 lambda_client = boto3.client('lambda')
 
+updates = [
+    {
+        'action': 'SET',
+        'toggle_name': 'existing',
+        'dimension': 'd1',
+        'value': False,
+    }
+]
 
 response =lambda_client.invoke(
-    FunctionName = load_function
+    FunctionName = update_function,
+    InvocationType='RequestResponse',
+    Payload=json.dumps(updates)
 )
 
 print response
