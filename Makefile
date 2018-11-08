@@ -36,7 +36,7 @@ compile-app:
 	pipenv run cfn-lint $(TEMPLATE_DIR)/template.yml
 
 test:
-	pipenv run python -m pytest -s tests/
+	pipenv run python -m pytest -s tests/integration_tests/test_featuretoggles.py
 
 build: package
 
