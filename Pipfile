@@ -10,6 +10,7 @@ jsonschema = "*"
 jsonref = "*"
 botocore = "*"
 aws-xray-sdk = "*"
+setuptools = "*"
 
 [dev-packages]
 cfn-lint = "*"
