@@ -45,7 +45,7 @@ package: compile-app
 
 	# package dependencies in lib dir
 	pipenv lock --requirements > $(BUILD_DIR)/requirements.txt
-	pipenv run pip install -t $(BUILD_DIR)/src/lib/ -r $(BUILD_DIR)/requirements.txt	
+	pipenv run pip install -t $(BUILD_DIR)/src/ -r $(BUILD_DIR)/requirements.txt	
 
 deploy: package
 	pipenv run sam package --template-file $(BUILD_DIR)/template.yml --s3-bucket $(PACKAGE_BUCKET) --s3-prefix $(PACKAGE_PREFIX) --output-template-file $(BUILD_DIR)/packaged-template.yml
