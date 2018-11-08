@@ -20,8 +20,9 @@ def runs_on_aws_lambda():
 
 # Patch all supported libraries for X-Ray - More info: https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-python-patching.html
 if runs_on_aws_lambda():    
-    from aws_xray_sdk.core import patch_all
-    patch_all()
+    #from aws_xray_sdk.core import patch_all
+    #patch_all()
+    continue
 
 def load_feature_toggles(request, context):
     """Load feature toggles.

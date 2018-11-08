@@ -3,7 +3,7 @@ import json
 
 client = boto3.client('cloudformation')
 
-stack_name = 'FeatureToggles-3b15c578-7317-4e68-8c54-48c8c4d307ca'
+stack_name = 'FeatureToggles-24186b93-049e-46c8-944b-2d04294433ab'
 response = client.describe_stack_resource(
     StackName = stack_name,
     LogicalResourceId = 'LoadFeatureToggles'
