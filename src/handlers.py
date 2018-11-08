@@ -45,8 +45,7 @@ def update_feature_toggles(request, context):
 
     Update feature toggle values according to the request.
     """
-    if type(request) != dict:
-        request = json.loads(request)
+    LOGGER.debug(type(request))
     LOGGER.info('Update feature toggles request=%s', request)
     schema.validate_update_feature_toggles_request(request)
 
