@@ -86,6 +86,8 @@ Resources:
                 Effect: Allow
                 Action:
                   - 'ssm:GetParameter*'
+                  - 'ssm:PutParameter*'
+                  - 'ssm:DeleteParameter*'
                 Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${TogglesPrefix}*'
 
       AssumeRolePolicyDocument:
