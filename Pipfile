@@ -9,6 +9,7 @@ awscli = "*"
 jsonschema = "*"
 jsonref = "*"
 botocore = "*"
+aws-xray-sdk = "*"
 
 [dev-packages]
 cfn-lint = "*"

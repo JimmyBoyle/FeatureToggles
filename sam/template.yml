@@ -23,6 +23,7 @@ Resources:
       Environment:
         Variables:
           LOG_LEVEL: !Ref LogLevel
+          PREFIX: !Ref TogglesPrefix
       Handler: handlers.load_feature_toggles
       Role: !GetAtt LoadFeatureTogglesRole.Arn
       Timeout: 60
@@ -63,7 +64,8 @@ Resources:
       MemorySize: 512
       Environment:
         Variables:
-          LOG_LEVEL: !Ref LogLevel
+          LOG_LEVEL: !Ref LogLevel          
+          PREFIX: !Ref TogglesPrefix
       Handler: handlers.update_feature_toggles
       Role: !GetAtt UpdateFeatureTogglesRole.Arn
       Timeout: 60
