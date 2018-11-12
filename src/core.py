@@ -2,6 +2,7 @@
 
 import json
 import logging
+import ast
 
 import boto3
 import botocore
@@ -34,7 +35,7 @@ def load():
             toggle, dimension = param['Name'].split('/')[2:]
             if toggle not in response:
                 response[toggle] = {}
-            response[toggle][dimension] = param['Value']
+            response[toggle][dimension] = ast.literal_eval(param['Value'])
     return response
 
 

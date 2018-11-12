@@ -1,23 +1,6 @@
 import boto3
 import json
-
-client = boto3.client('cloudformation')
-
-stack_name = 'FeatureToggles-b4c42e9d-1105-46e8-857d-79d92ff57d6b'
-response = client.describe_stack_resource(
-    StackName = stack_name,
-    LogicalResourceId = 'LoadFeatureToggles'
-)
-
-load_function = response['StackResourceDetail']['PhysicalResourceId']
-
-response = client.describe_stack_resource(
-    StackName = stack_name,
-    LogicalResourceId = 'UpdateFeatureToggles'
-)
-
-update_function = response['StackResourceDetail']['PhysicalResourceId']
-
+import conftest
 
 lambda_client = boto3.client('lambda')
 
@@ -45,10 +28,33 @@ updates = {
     ]
 }
 
+expected = {
+    'feature_toggles':{
+        'feature1':{
+            'dimension1':'True',
+            'dimension2':'False'
+        },
+        'feature2':{
+            'dimension3':'True'
+        }
+    }
+}
+
 response =lambda_client.invoke(
-    FunctionName = update_function,
+    FunctionName = conftest.update_function,
     InvocationType='RequestResponse',
     Payload=json.dumps(updates)
 )
 
 print response
+
+res =lambda_client.invoke(
+    FunctionName = conftest.load_function,
+    InvocationType='RequestResponse'
+)
+print res
+res_json = json.loads(res['Payload'].read().decode("utf-8"))
+print res_json == expected
+for feature in res_json['feature_toggles']:
+    for dim in res_json['feature_toggles'][feature]:
+        print feature, dim, type(res_json['feature_toggles'][feature][dim])
