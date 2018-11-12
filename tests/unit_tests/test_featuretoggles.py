@@ -341,7 +341,7 @@ def _mock_toggles(mocker, toggles):
             for dimension in toggles[toggle]:
                 val['Parameters'].append({
                     'Name': PREFIX + toggle + '/' + dimension,
-                    'Value': toggles[toggle][dimension]
+                    'Value': str(toggles[toggle][dimension])
                 })
         return_val.append(val)
     core.paginator.paginate.return_value = return_val
