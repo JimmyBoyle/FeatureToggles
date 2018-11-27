@@ -20,6 +20,7 @@ phases:
     finally:
     - make teardown APP_STACK_NAME=$x
 
+#Output SAM Template to S3 
 artifacts:
   files:
     - 'dist/packaged-template.yml'
