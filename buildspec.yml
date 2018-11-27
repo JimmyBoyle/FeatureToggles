@@ -23,3 +23,5 @@ phases:
 artifacts:
   files:
     - 'dist/packaged-template.yml'
+  name: packaged-template-$(date)
+  discard-paths: yes
