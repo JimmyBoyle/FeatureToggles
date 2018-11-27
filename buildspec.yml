@@ -19,3 +19,7 @@ phases:
     - make test-integration APP_STACK_NAME=$x
     finally:
     - make teardown APP_STACK_NAME=$x
+
+artifacts:
+  files:
+    - '/dist/packaged-template.yml
