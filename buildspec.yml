@@ -22,4 +22,4 @@ phases:
 
 artifacts:
   files:
-    - '/dist/packaged-template.yml
+    - '/dist/packaged-template.yml'
