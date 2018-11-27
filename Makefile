@@ -35,10 +35,13 @@ compile-app:
 	mkdir -p $(BUILD_DIR)
 	pipenv run cfn-lint $(TEMPLATE_DIR)/template.yml
 
-test:
-	pipenv run python -m pytest -s tests/unit_tests/test_featuretoggles.py
+test-unit:
+	pipenv run python -m pytest -s tests/unit_tests/test_unit.py
 
-build: package
+test-integration:
+	pipenv run python -m pytest -s tests/integration_tests/test_integration.py --stack-name $(APP_STACK_NAME)
+
+build: package 
 
 package: compile-app
 	cp -r $(TEMPLATE_DIR)/template.yml src $(BUILD_DIR)

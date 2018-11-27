@@ -14,6 +14,8 @@ phases:
   build:
     commands:
     - make compile-app
-    - make test
+    - make test-unit
     - make deploy APP_STACK_NAME=$x
-    #- make teardown APP_STACK_NAME=$x
+    - make test-integration
+    finally:
+    - make teardown APP_STACK_NAME=$x
