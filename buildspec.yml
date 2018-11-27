@@ -23,5 +23,5 @@ phases:
 artifacts:
   files:
     - 'dist/packaged-template.yml'
-  name: packaged-template-$(date)
+  name: feature_toggles/packaged-template-$(date +%Y-%m-%d_%H:%M:%S)
   discard-paths: yes
