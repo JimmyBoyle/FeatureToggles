@@ -29,7 +29,7 @@ clean:
 
 init:
 	pip install pipenv
-	pipenv lock --dev
+	pipenv lock --clear
 	pipenv sync --dev
 
 compile-app:
