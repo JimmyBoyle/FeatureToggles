@@ -1,4 +1,5 @@
 import core
+import handlers
 import pytest
 import os
 import botocore
@@ -9,6 +10,23 @@ from jsonschema import ValidationError
 
 PREFIX = '/'+os.environ['PREFIX'] +  '/'
 
+
+def test_handler_load_with_item(mocker):
+    toggles_data = {
+        't1': {
+            'd1': True,
+            'd2': False,
+        },
+        't2': {
+            'd1': True,
+        },
+        't3': {
+            'd1': False,
+        },
+    }
+    _mock_toggles(mocker, toggles_data)
+    expected = {'feature_toggles': toggles_data}
+    assert handlers.load_feature_toggles(None,None) == expected
 
 def test_load_no_item(mocker):
     mocker.patch.object(core.paginator, 'paginate')
