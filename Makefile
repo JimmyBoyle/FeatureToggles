@@ -56,7 +56,7 @@ package: compile-app
 
 deploy: package
 	pipenv run sam package --template-file $(BUILD_DIR)/template.yml --s3-bucket $(PACKAGE_BUCKET) --s3-prefix $(PACKAGE_PREFIX) --output-template-file $(BUILD_DIR)/packaged-template.yml
-	pipenv run sam deploy --template-file $(BUILD_DIR)/packaged-template.yml --stack-name $(APP_STACK_NAME) --capabilities CAPABILITY_IAM
+	pipenv run sam deploy --template-file $(BUILD_DIR)/packaged-template.yml --stack-name $(APP_STACK_NAME) --capabilities CAPABILITY_IAM --TogglesPrefix 'jimmy-toggles'
 
 teardown:
 	aws cloudformation delete-stack --stack-name $(APP_STACK_NAME)
