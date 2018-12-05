@@ -1,6 +1,4 @@
 """Helpers for schema validation."""
-
-import os.path as path
 import pathlib
 import jsonref
 import jsonschema
@@ -23,20 +21,13 @@ def _validate(data, schema_filename):
 def _load_json_schema(filename):
     """Load schema file, correctly dereferencing relative file references."""
     if filename not in SCHEMA_CACHE:
-        relative_path = path.join('schemas', filename)
-        absolute_path = path.join(path.dirname(__file__), relative_path)
-
-        base_path = path.dirname(absolute_path)
-        base_uri = 'file://{}/'.format(base_path)
-        base_uri = pathlib.Path(base_path).as_uri() + '/'
+        absolute_path = pathlib.Path(__file__).parent / 'schemas' / filename
+        base_uri = pathlib.Path(absolute_path).parent.as_uri()
         
-        #base_uri = 'file://C:/Users/boylejim/Documents/GitHub/FeatureToggles/src/schemas/'
         with open(absolute_path) as schema_file:
-            print(absolute_path)
-            print(base_uri)
             SCHEMA_CACHE[filename] = jsonref.loads(
                 schema_file.read(),
-                base_uri=base_uri,
+                base_uri=base_uri + '/',
                 jsonschema=True
             )
 
