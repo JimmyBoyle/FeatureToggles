@@ -28,6 +28,7 @@ clean:
 	rm -rf dist
 
 init:
+	pip install --upgrade pip
 	pip install pipenv
 	pipenv lock --clear
 	pipenv sync --dev
