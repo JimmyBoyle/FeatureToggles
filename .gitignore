@@ -1,6 +1,8 @@
 *~
 *#
 *.swp
+
+#files created during build process
 Pipfile.lock
 
 # Byte-compiled / optimized / DLL files
