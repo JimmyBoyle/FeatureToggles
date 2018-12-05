@@ -32,7 +32,7 @@ def load():
 
     for iters in response_iterator:
         for param in iters['Parameters']:
-            toggle, dimension = param['Name'].split('/')[2:]
+            toggle, dimension = param['Name'].split('/')[-2:]
             if toggle not in response:
                 response[toggle] = {}
             response[toggle][dimension] = ast.literal_eval(param['Value'])
@@ -80,29 +80,18 @@ def update(updates):
 
 def _update_params(params):
     for param in params:
-        try:
-            client.put_parameter(
-                Name=PREFIX + param['toggle_name'] + '/' + param['dimension'],
-                Value=str(param['value']),
-                Type='String',
-                Overwrite=True
-            )
-        except botocore.exceptions.ClientError as err:
-            raise err
-    return
+        client.put_parameter(
+            Name=PREFIX + param['toggle_name'] + '/' + param['dimension'],
+            Value=str(param['value']),
+            Type='String',
+            Overwrite=True
+        )
 
 
 def _clear_params(param_names):
-    if len(param_names) == 0:
-        return
     # max size of items to delete for ssm api call is 10 so we split into size 10 chunks
     n = 10
     for param_chunk in [param_names[i:i + n] for i in range(0, len(param_names), n)]:
-        try:
-            response = client.delete_parameters(
-                Names=param_chunk
-            )
-        except botocore.exceptions.ClientError as err:
-            raise err
-
-    return
+        response = client.delete_parameters(
+            Names=param_chunk
+        )
