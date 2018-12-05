@@ -17,8 +17,8 @@ phases:
     - make deploy APP_STACK_NAME=$x
     - echo STACK_NAME = "'"$x"'" > tests/integration_tests/test_constants.py
     - make test
-    finally:
-    - make teardown APP_STACK_NAME=$x
+    #finally:
+    #- make teardown APP_STACK_NAME=$x
 
 #Output SAM Template to S3 
 artifacts:

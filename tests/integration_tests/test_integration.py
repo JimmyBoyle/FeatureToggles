@@ -42,9 +42,9 @@ def test_basic_load():
             }
         }
     }
-    _update_toggles( updates)
+    _update_toggles(updates)
     assert _load_toggles() == expected
-    _clear_toggles( expected)
+    _clear_toggles(expected)
 
 
 def _load_toggles():
