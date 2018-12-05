@@ -42,6 +42,9 @@ test-unit:
 test-integration:
 	pipenv run python -m pytest -s tests/integration_tests/test_integration.py --stack-name $(APP_STACK_NAME)
 
+test:
+	pipenv run py.test --cov=src --cov-fail-under=85  tests/
+
 build: package 
 
 package: compile-app
