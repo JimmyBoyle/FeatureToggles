@@ -97,7 +97,7 @@ def _clear_params(param_names):
         return
     # max size of items to delete for ssm api call is 10 so we split into size 10 chunks
     n = 10
-    for param_chunk in [param_names[i:i + n] for i in xrange(0, len(param_names), n)]:
+    for param_chunk in [param_names[i:i + n] for i in range(0, len(param_names), n)]:
         try:
             response = client.delete_parameters(
                 Names=param_chunk

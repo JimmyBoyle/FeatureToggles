@@ -1,13 +1,12 @@
 import boto3
 import json
-import conftest
+import lambda_functions
 import sys
 
 lambda_client = boto3.client('lambda')
 
 
-def test_basic_load(load_function, update_function):
-    print load_function
+def test_basic_load():
     updates = {
         "operator_id": "tester",
         "updates": [
@@ -43,29 +42,29 @@ def test_basic_load(load_function, update_function):
             }
         }
     }
-    _update_toggles(update_function, updates)
-    assert _load_toggles(load_function) == expected
-    _clear_toggles(update_function, load_function, expected)
+    _update_toggles( updates)
+    assert _load_toggles() == expected
+    _clear_toggles( expected)
 
 
-def _load_toggles(load_function):
+def _load_toggles():
     res = lambda_client.invoke(
-        FunctionName=load_function,
+        FunctionName=lambda_functions.load_function,
         InvocationType='RequestResponse'
     )
     return json.loads(res['Payload'].read().decode("utf-8"))
 
 
-def _update_toggles(update_function, updates):
+def _update_toggles(updates):
     res = lambda_client.invoke(
-        FunctionName=update_function,
+        FunctionName=lambda_functions.update_function,
         InvocationType='RequestResponse',
         Payload=json.dumps(updates)
     )
     return json.loads(res['Payload'].read().decode("utf-8"))
 
 
-def _clear_toggles(update_function, load_function, current_toggles):
+def _clear_toggles(current_toggles):
     updates = {
         "operator_id": "tester",
         "updates": []
@@ -78,5 +77,5 @@ def _clear_toggles(update_function, load_function, current_toggles):
             }
         )
 
-    _update_toggles(update_function, updates)
-    assert _load_toggles(load_function) == {'feature_toggles': {}}
+    _update_toggles(updates)
+    assert _load_toggles() == {'feature_toggles': {}}

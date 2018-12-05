@@ -2,7 +2,6 @@ import core
 import pytest
 import os
 import botocore
-import conftest
 
 from pytest_mock import mocker
 from jsonschema import ValidationError
