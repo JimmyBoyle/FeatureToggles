@@ -55,6 +55,7 @@ Resources:
             Action:
               - ssm:GetParameter*
               - ssm:DeleteParameter*
+              - ssm:PutParameter
             Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${TogglesPrefix}/*
       Timeout: 60
       Runtime: python3.6
