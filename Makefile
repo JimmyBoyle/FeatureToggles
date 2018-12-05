@@ -29,7 +29,8 @@ clean:
 
 init:
 	pip install pipenv
-	pipenv install --dev
+	pipenv lock --dev
+	pipenv sync --dev
 
 compile-app:
 	mkdir -p $(BUILD_DIR)
