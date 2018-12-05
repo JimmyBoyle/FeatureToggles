@@ -36,14 +36,8 @@ compile-app:
 	mkdir -p $(BUILD_DIR)
 	pipenv run cfn-lint $(TEMPLATE_DIR)/template.yml
 
-test-unit:
-	pipenv run python -m pytest -s tests/unit_tests/test_unit.py
-
-test-integration:
-	pipenv run python -m pytest -s tests/integration_tests/test_integration.py --stack-name $(APP_STACK_NAME)
-
 test:
-	pipenv run py.test --cov=src --cov-fail-under=85  tests/
+	pipenv run py.test --cov=src --cov-fail-under=60  tests/
 
 build: package 
 
