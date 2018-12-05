@@ -56,6 +56,7 @@ def _load_toggles():
 
 
 def _update_toggles(updates):
+    print (lambda_functions.update_function)
     res = lambda_client.invoke(
         FunctionName=lambda_functions.update_function,
         InvocationType='RequestResponse',

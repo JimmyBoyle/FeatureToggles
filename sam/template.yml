@@ -69,7 +69,7 @@ Resources:
       Handler: handlers.update_feature_toggles
       Role: !GetAtt UpdateFeatureTogglesRole.Arn
       Timeout: 60
-      Runtime: python2.7
+      Runtime: python3.6
       
   UpdateFeatureTogglesRole:
     Type: 'AWS::IAM::Role'
