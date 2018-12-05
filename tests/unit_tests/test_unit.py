@@ -8,7 +8,53 @@ from pytest_mock import mocker
 from jsonschema import ValidationError
 
 
-PREFIX = '/'+os.environ['PREFIX'] +  '/'
+PREFIX = '/'+os.environ['PREFIX'] + '/'
+
+
+def test_handler_update_set_missing_dimension(mocker):
+    mocker.patch.object(core.client, 'put_parameter')
+    before_update = {
+        'existing': {
+            'd1': True,
+        },
+    }
+    _mock_toggles(mocker, before_update)
+
+    request = {
+        "operator_id": "tester",
+        "updates":  [
+            {
+                'action': 'SET',
+                'toggle_name': 't1',
+                'value': True,
+            }
+        ]
+    }
+    with pytest.raises(ValidationError):
+        handlers.update_feature_toggles(request, None)
+    core.client.put_parameter.assert_not_called()
+
+
+def test_handler_update_invalid_action(mocker):
+    mocker.patch.object(core.client, 'put_parameter')
+    before_update = {}
+    _mock_toggles(mocker, before_update)
+
+    request = {
+        "operator_id": "tester",
+        "updates": [
+            {
+                'action': 'NOPE',
+                'toggle_name': 'existing',
+                'dimension': 'd1',
+                'value': False,
+            }
+        ]
+    }
+
+    with pytest.raises(Exception):
+        handler.update_feature_toggles(request, None)
+    core.client.put_parameter.assert_not_called()
 
 
 def test_handler_load_with_item(mocker):
@@ -26,7 +72,8 @@ def test_handler_load_with_item(mocker):
     }
     _mock_toggles(mocker, toggles_data)
     expected = {'feature_toggles': toggles_data}
-    assert handlers.load_feature_toggles(None,None) == expected
+    assert handlers.load_feature_toggles(None, None) == expected
+
 
 def test_load_no_item(mocker):
     mocker.patch.object(core.paginator, 'paginate')
@@ -244,6 +291,7 @@ def test_update_put_parameter_exception(mocker):
     with pytest.raises(botocore.exceptions.ClientError):
         core.update(updates)
 
+
 def test_update_delete_parameters_exception(mocker):
     mocker.patch.object(core.client, 'delete_parameters')
     before_update = {
@@ -266,6 +314,7 @@ def test_update_delete_parameters_exception(mocker):
     ]
     with pytest.raises(botocore.exceptions.ClientError):
         core.update(updates)
+
 
 def test_update_multiple_updates(mocker):
     mocker.patch.object(core, '_update_params')
@@ -308,7 +357,7 @@ def test_update_multiple_updates(mocker):
 
     clear_calls = [
         PREFIX + 't1/d2',
-        PREFIX + 't2/d1' 
+        PREFIX + 't2/d1'
     ]
     set_calls = [
         {
@@ -330,7 +379,6 @@ def test_update_multiple_updates(mocker):
     core._update_params.assert_called_with(set_calls)
 
 
-
 def _convert_clears(cur_params, updates):
     clears = []
     for update in updates:
@@ -347,6 +395,7 @@ def _convert_clears(cur_params, updates):
                     clears.append(param_name)
 
     return clears
+
 
 def _mock_toggles(mocker, toggles):
     mocker.patch.object(core.paginator, 'paginate')
@@ -369,6 +418,7 @@ def _mock_toggles(mocker, toggles):
 def _mock_put_parameter_error(err_response):
     error = botocore.exceptions.ClientError(err_response, 'PutParameter')
     core.client.put_parameter.side_effect = error
+
 
 def _mock_delete_parameters_error(err_response):
     error = botocore.exceptions.ClientError(err_response, 'DeleteParameters')
