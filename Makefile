@@ -29,7 +29,7 @@ clean:
 
 init:
 	pip install pipenv
-	pipenv install
+	pipenv install --dev
 
 compile-app:
 	mkdir -p $(BUILD_DIR)
