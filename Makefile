@@ -28,10 +28,9 @@ clean:
 	rm -rf dist
 
 init:
-	pip install --upgrade pip
 	pip install pipenv
-	pipenv lock --clear
-	pipenv sync --dev
+	pipenv run pip install pip==18.0
+	pipenv install
 
 compile-app:
 	mkdir -p $(BUILD_DIR)
