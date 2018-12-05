@@ -27,7 +27,7 @@ Resources:
       Handler: handlers.load_feature_toggles
       Role: !GetAtt LoadFeatureTogglesRole.Arn
       Timeout: 60
-      Runtime: python2.7
+      Runtime: python3.6
 
   LoadFeatureTogglesRole:
     Type: 'AWS::IAM::Role'
