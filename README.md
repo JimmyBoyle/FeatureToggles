@@ -158,4 +158,4 @@ This is because feature1/dimension1 was added and set to true, then feature1/dim
 ## Parameters
 
 1. `LogLevel` - Log level for Lambda functions. Allows log level to be changed at runtime by updating Lambda environment variables. Default: INFO
-1. `SSMParameterPathPrefix` - Path prefix to use when storing feature toggle values in SSM Parameter Store. Default: /FeatureToggles
+1. `TogglesPrefix` - Path prefix to use when storing feature toggle values in SSM Parameter Store. Default: /FeatureToggles
