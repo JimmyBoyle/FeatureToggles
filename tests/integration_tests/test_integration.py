@@ -47,6 +47,90 @@ def test_basic_load():
     _clear_toggles(expected)
 
 
+def test_clear():
+    before = {
+        "operator_id": "tester",
+        "updates": [
+            {
+                "action": "SET",
+                "toggle_name": "feature1",
+                "dimension": "dimension1",
+                "value": True
+            },
+            {
+                "action": "SET",
+                "toggle_name": "feature1",
+                "dimension": "dimension2",
+                "value": False
+            },
+            {
+                "action": "SET",
+                "toggle_name": "feature2",
+                "dimension": "dimension3",
+                "value": True
+            }
+        ]
+    }
+    _update_toggles(before)
+    updates = {
+        "operator_id": "tester",
+        "updates": [
+            {
+                "action": "CLEAR",
+                "toggle_name": "feature1",
+                "dimension": "dimension1"
+            }
+        ]
+    }
+
+    expected = {
+        'feature_toggles': {
+            'feature1': {
+                'dimension2': False
+            },
+            'feature2': {
+                'dimension3': True
+            }
+        }
+    }
+    _update_toggles(updates)
+    assert _load_toggles() == expected
+    _clear_toggles(expected)
+
+
+def test_bad_action():
+    updates = {
+        "operator_id": "tester",
+        "updates": [
+            {
+                "action": "SETS",
+                "toggle_name": "feature1",
+                "dimension": "dimension1",
+                "value": True
+            }
+        ]
+    }
+
+    result = _update_toggles(updates)
+    assert 'errorMessage' in result
+    assert 'ValidationError' == result['errorType']
+
+def test_missing_dimension():
+    updates = {
+        "operator_id": "tester",
+        "updates":  [
+            {
+                'action': 'SET',
+                'toggle_name': 't1',
+                'value': True,
+            }
+        ]
+    }
+    
+    result = _update_toggles(updates)
+    assert 'errorMessage' in result
+    assert 'ValidationError' == result['errorType'] 
+
 def _load_toggles():
     res = lambda_client.invoke(
         FunctionName=lambda_functions.load_function,
@@ -56,7 +140,7 @@ def _load_toggles():
 
 
 def _update_toggles(updates):
-    print (lambda_functions.update_function)
+    print(lambda_functions.update_function)
     res = lambda_client.invoke(
         FunctionName=lambda_functions.update_function,
         InvocationType='RequestResponse',
