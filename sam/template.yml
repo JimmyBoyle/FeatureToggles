@@ -11,7 +11,8 @@ Parameters:
     Type: String
     Description: Prefix String for SSM Parameters
     Default: FeatureToggles
-    
+    ConstraintDescription: 'Parameter names can consist of the following symbols and letters only: a-zA-Z0-9_.-/ A parameter name cannot be prefixed with "aws" or "ssm" (case-insensitive)'
+    AllowedPattern: "^(?![aA][wW][sS]|[sS]{2}[mM]).[a-zA-Z0-9\\.\\-\\/\\_]*$"
 
 Resources:
   LoadFeatureToggles:
