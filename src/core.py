@@ -14,7 +14,6 @@ LOGGER = logging.getLogger(__name__)
 
 client = boto3.client('ssm')
 paginator = client.get_paginator('get_parameters_by_path')
-#PREFIX = '/FeatureToggles'
 PREFIX = '/' + config.PREFIX + '/'
 
 

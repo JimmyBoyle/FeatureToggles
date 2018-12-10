@@ -14,7 +14,6 @@ def validate_update_feature_toggles_request(request):
 def _validate(data, schema_filename):
     """Validate data against given JSON schema file."""
     schema = _load_json_schema(schema_filename)
-    print('jimmy', schema)
     return jsonschema.validate(data, schema)
 
 
