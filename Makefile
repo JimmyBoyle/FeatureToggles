@@ -16,7 +16,7 @@ PACKAGE_PREFIX ?= FeatureToggles
 
 
 # Stack name used when deploying the app for manual testing
-APP_STACK_NAME ?= jimbo-toggles-1
+APP_STACK_NAME ?= testing-stack-name
 # Default AWS CLI region
 AWS_DEFAULT_REGION ?= us-west-2
 
