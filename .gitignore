@@ -20,3 +20,4 @@ __pycache__/
 /dist
 
 /tests/integration_tests/test_constants.py
+/tests/*
