@@ -19,5 +19,4 @@ __pycache__/
 /build
 /dist
 
-/tests/integration_tests/test_constants.py
-/tests/*
+tests/integration_tests/test_constants.py
