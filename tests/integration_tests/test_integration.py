@@ -46,8 +46,7 @@ def test_basic_load():
     assert _load_toggles() == expected
     _clear_toggles(expected)
 
-
-def test_clear():
+def test_clear_one():
     before = {
         "operator_id": "tester",
         "updates": [
@@ -97,7 +96,52 @@ def test_clear():
     assert _load_toggles() == expected
     _clear_toggles(expected)
 
+def test_clear_all():
+    before = {
+        "operator_id": "tester",
+        "updates": [
+            {
+                "action": "SET",
+                "toggle_name": "feature1",
+                "dimension": "dimension1",
+                "value": True
+            },
+            {
+                "action": "SET",
+                "toggle_name": "feature1",
+                "dimension": "dimension2",
+                "value": False
+            },
+            {
+                "action": "SET",
+                "toggle_name": "feature2",
+                "dimension": "dimension3",
+                "value": True
+            }
+        ]
+    }
+    _update_toggles(before)
+    updates = {
+        "operator_id": "tester",
+        "updates": [
+            {
+                "action": "CLEAR_ALL",
+                "toggle_name": "feature1"
+            }
+        ]
+    }
 
+    expected = {
+        'feature_toggles': {
+            'feature2': {
+                'dimension3': True
+            }
+        }
+    }
+    _update_toggles(updates)
+    assert _load_toggles() == expected
+    _clear_toggles(expected)
+    
 def test_bad_action():
     updates = {
         "operator_id": "tester",
@@ -121,6 +165,21 @@ def test_missing_dimension():
         "updates":  [
             {
                 'action': 'SET',
+                'toggle_name': 't1',
+                'value': True,
+            }
+        ]
+    }
+    
+    result = _update_toggles(updates)
+    assert 'errorMessage' in result
+    assert 'ValidationError' == result['errorType'] 
+
+def test_missing_action():
+    updates = {
+        "operator_id": "tester",
+        "updates":  [
+            {
                 'toggle_name': 't1',
                 'value': True,
             }
