@@ -11,6 +11,7 @@ jsonref = "*"
 botocore = "*"
 aws-xray-sdk = "*"
 setuptools = ">=40.5.0"
+codecov = "*"
 
 [dev-packages]
 cfn-lint = "*"
@@ -20,6 +21,7 @@ mock = "*"
 pytest-mock = "*"
 aws-sam-cli = "*"
 pytest-cov = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.6"

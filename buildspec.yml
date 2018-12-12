@@ -16,7 +16,7 @@ phases:
     - make compile-app
     - make deploy APP_STACK_NAME=$x
     - echo STACK_NAME = "'"$x"'" > tests/integration_tests/test_constants.py
-    - make test
+    - make test TOKEN=$codecov-token
     finally:
     - make teardown APP_STACK_NAME=$x
 

@@ -1,4 +1,4 @@
-# FeatureToggles ![Build Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiSDZubURMQ0tWWVFUc0pqZzBXTkh3Q05IcGlYamJqeW5zYzZOa1d6TkdPbWFaVkY4SHRMTjJXR3BrVk5tbjJnZzQ2SmdZNTJId1lLaGtxUC9LNkRtQkpJPSIsIml2UGFyYW1ldGVyU3BlYyI6IldGL05aT25QSE9xakMrdHYiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+# FeatureToggles ![Build Status](https://codebuild.us-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiSDZubURMQ0tWWVFUc0pqZzBXTkh3Q05IcGlYamJqeW5zYzZOa1d6TkdPbWFaVkY4SHRMTjJXR3BrVk5tbjJnZzQ2SmdZNTJId1lLaGtxUC9LNkRtQkpJPSIsIml2UGFyYW1ldGVyU3BlYyI6IldGL05aT25QSE9xakMrdHYiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master) [![codecov](https://codecov.io/gh/JimmyBoyle/FeatureToggles/branch/master/graph/badge.svg)](https://codecov.io/gh/JimmyBoyle/FeatureToggles)
 
 Feature Toggles is a serverless app for for maintaining [feature toggles/flags](https://martinfowler.com/articles/feature-toggles.html) (runtime switches that enable/disable features in a distributed system). It provides Lambda functions to load and update feature toggles.
 

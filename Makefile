@@ -37,7 +37,8 @@ compile-app:
 	pipenv run cfn-lint $(TEMPLATE_DIR)/template.yml
 
 test:
-	pipenv run py.test --cov=src --cov-fail-under=85  tests/
+	pipenv run py.test --cov=src  tests/
+	codecov -t $(TOKEN)
 
 build: package 
 
