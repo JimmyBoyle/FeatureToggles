@@ -11,10 +11,12 @@ __pycache__/
 *$py.class
 *.egg-info/
 
+#Testing coverages
 /.coverage
 /.coverage.*
-/.cache
+/.coverage.xml
 
 /doc/_autosummary/
 /build
 /dist
+/.cache
