@@ -18,5 +18,3 @@ __pycache__/
 /doc/_autosummary/
 /build
 /dist
-
-tests/integration_tests/test_constants.py
