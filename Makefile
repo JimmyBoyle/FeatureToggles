@@ -38,7 +38,7 @@ compile-app:
 
 test:
 	pipenv run py.test --cov=src  tests/
-	codecov -t $(TOKEN)
+	pipenv run codecov -t $(TOKEN)
 
 build: package 
 
