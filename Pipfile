@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"boto3" = "*"
+awscli = "*"
+jsonschema = "*"
+jsonref = "*"
+botocore = "*"
+aws-xray-sdk = "*"
+setuptools = ">=40.5.0"
+codecov = "*"
+
+[dev-packages]
+cfn-lint = "*"
+"autopep8" = "*"
+pytest = "*"
+mock = "*"
+pytest-mock = "*"
+aws-sam-cli = "*"
+pytest-cov = "*"
+coverage = "*"
+
+[requires]
+python_version = "3.6"

@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Schema for update_feature_toggles request",
+    "type": "object",
+    "properties": {
+        "operator_id": {
+            "type": "string",
+            "minLength": 1
+        },
+        "updates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "feature_toggle_update.json"
+            }
+        }
+    },
+    "required": [
+        "operator_id",
+        "updates"
+    ]
+}

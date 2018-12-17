@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Parameters:
+  LogLevel:
+    Type: String
+    Description: Log level for lambda functions.
+    Default: INFO
+    AllowedValues: [DEBUG, INFO, WARNING, ERROR, CRITICAL]
+  TogglesPrefix:
+    Type: String
+    Description: Prefix String for SSM Parameters
+    Default: FeatureToggles
+    ConstraintDescription: 'Parameter names can consist of the following symbols and letters only: a-zA-Z0-9_.-/ A parameter name cannot be prefixed with "aws" or "ssm" (case-insensitive)'
+    AllowedPattern: "^(?![aA][wW][sS]|[sS]{2}[mM]).[a-zA-Z0-9\\.\\-\\/\\_]*$"
+
+Resources:
+  LoadFeatureToggles:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Tracing: Active
+      CodeUri: ./src
+      MemorySize: 128
+      Environment:
+        Variables:
+          LOG_LEVEL: !Ref LogLevel
+          PREFIX: !Ref TogglesPrefix
+      Handler: handlers.load_feature_toggles
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            Effect: Allow
+            Action:
+              - ssm:GetParameter*
+            Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${TogglesPrefix}/*
+      Timeout: 60
+      Runtime: python3.6
+
+  UpdateFeatureToggles:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Tracing: Active
+      CodeUri: ./src
+      MemorySize: 128
+      Environment:
+        Variables:
+          LOG_LEVEL: !Ref LogLevel          
+          PREFIX: !Ref TogglesPrefix
+      Handler: handlers.update_feature_toggles
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            Effect: Allow
+            Action:
+              - ssm:GetParameter*
+              - ssm:DeleteParameter*
+              - ssm:PutParameter
+            Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${TogglesPrefix}/*
+      Timeout: 60
+      Runtime: python3.6
+
+Outputs:
+  LoadFeatureTogglesFunctionName:
+    Value: !Ref LoadFeatureToggles
+  LoadFeatureTogglesFunctionArn:
+    Value: !GetAtt LoadFeatureToggles.Arn
+  UpdateFeatureTogglesFunctionName:
+    Value: !Ref UpdateFeatureToggles
+  UpdateFeatureTogglesFunctionArn:
+    Value: !GetAtt UpdateFeatureToggles.Arn

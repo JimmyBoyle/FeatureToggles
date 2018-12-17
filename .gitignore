@@ -1,0 +1,22 @@
+*~
+*#
+*.swp
+
+#files created during build process
+Pipfile.lock
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+#Testing coverages
+/.coverage
+/.coverage.*
+/.coverage.xml
+
+/doc/_autosummary/
+/build
+/dist
+/.cache

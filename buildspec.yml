@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+    - make init
+  pre_build:
+    commands:
+    # Generate UUID and store it with a Prefix
+    - apt-get update
+    - apt-get install uuid-runtime
+    - uuid=$(uuidgen -r)
+    - x=FeatureToggles-$uuid
+  build:
+    commands:
+    - make compile-app
+    - make deploy APP_STACK_NAME=$x
+    - echo STACK_NAME = "'"$x"'" > tests/integration_tests/test_constants.py
+    - make test TOKEN=$codecov_token
+    finally:
+    - make teardown APP_STACK_NAME=$x
+
+#Output SAM Template to S3 
+artifacts:
+  files:
+    - 'dist/packaged-template.yml'
+  name: feature_toggles-$(date +%Y-%m-%d_%H-%M-%S)
+  discard-paths: yes
