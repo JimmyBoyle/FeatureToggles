@@ -2,6 +2,9 @@
 
 Feature Toggles is a serverless app for for maintaining [feature toggles/flags](https://martinfowler.com/articles/feature-toggles.html) (runtime switches that enable/disable features in a distributed system). It provides Lambda functions to load and update feature toggles.
 
+## Getting Started
+This application can be found on the [Serverless App Repository](https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:183076076805:applications~Feature-Toggles).
+
 ## Architecture
 
 ![App Architecture](/architecture.png)
